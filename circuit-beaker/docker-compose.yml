@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: ./frontend/
+    volumes:
+      - ./frontend/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+  backend:
+    build:
+      context: ./backend/
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - frontend
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
