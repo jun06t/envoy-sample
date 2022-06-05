@@ -35,8 +35,8 @@ static_resources:
       lb_policy: ROUND_ROBIN
       circuit_breakers:
         thresholds:
-          # max_connections: 10
-          # max_pending_requests: 15
+          max_connections: 15
+          # max_pending_requests: 30
           max_requests: 10
       load_assignment:
         cluster_name: some_service
