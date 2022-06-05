@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  sidecar:
+    build:
+      context: ./sidecar/
+    volumes:
+      - ./sidecar/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+  app:
+    build:
+      context: ./app/
+    environment:
+      - ENDPOINT=http://sidecar:8082/test
+      #- ENDPOINT=http://external:8002/test
+  external:
+    build:
+      context: ./external/
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - sidecar
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
