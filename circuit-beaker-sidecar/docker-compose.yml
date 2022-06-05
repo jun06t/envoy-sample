@@ -13,8 +13,8 @@ services:
     build:
       context: ./app/
     environment:
-      - ENDPOINT=http://sidecar:8082/test
-      #- ENDPOINT=http://external:8002/test
+      - ENDPOINT=http://sidecar:8082/sleep
+      #- ENDPOINT=http://external:8002/sleep
   external:
     build:
       context: ./external/

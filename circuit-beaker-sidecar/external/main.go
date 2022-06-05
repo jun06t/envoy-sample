@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 func main() {
@@ -18,15 +19,18 @@ func main() {
 	}
 
 	h := &handler{
+		time: 10 * time.Second,
 		loop: loop,
 		num:  num,
 	}
 	http.HandleFunc("/", h.alive)
-	http.HandleFunc("/test", h.heavy)
+	http.HandleFunc("/sleep", h.sleep)
+	http.HandleFunc("/cpu", h.cpu)
 	http.ListenAndServe(":8002", nil)
 }
 
 type handler struct {
+	time time.Duration
 	loop int
 	num  int
 }
@@ -35,11 +39,16 @@ func (h *handler) alive(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Alive")
 }
 
-func (h *handler) heavy(w http.ResponseWriter, r *http.Request) {
+func (h *handler) sleep(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(h.time)
+	fmt.Fprintf(w, "Sleep")
+}
+
+func (h *handler) cpu(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < h.loop; i++ {
 		fib(h.num)
 	}
-	fmt.Fprintf(w, "Hello, World")
+	fmt.Fprintf(w, "CPU Bound")
 }
 
 func fib(n int) int {
