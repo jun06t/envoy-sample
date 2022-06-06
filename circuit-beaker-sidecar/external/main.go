@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -19,13 +21,15 @@ func main() {
 	}
 
 	h := &handler{
-		time: 10 * time.Second,
+		time: 5 * time.Second,
 		loop: loop,
 		num:  num,
 	}
-	http.HandleFunc("/", h.alive)
-	http.HandleFunc("/sleep", h.sleep)
-	http.HandleFunc("/cpu", h.cpu)
+	http.Handle("/metrics", promhttp.Handler())
+
+	http.Handle("/", genInstrumentChain("alive", h.alive))
+	http.Handle("/sleep", genInstrumentChain("sleep", h.sleep))
+	http.Handle("/cpu", genInstrumentChain("cpu", h.cpu))
 	http.ListenAndServe(":8002", nil)
 }
 

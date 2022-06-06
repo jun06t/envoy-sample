@@ -14,10 +14,13 @@ services:
       context: ./app/
     environment:
       - ENDPOINT=http://sidecar:8082/sleep
+      #- ENDPOINT=http://sidecar:8082/cpu
       #- ENDPOINT=http://external:8002/sleep
   external:
     build:
       context: ./external/
+    ports:
+      - 8002:8002
     deploy:
       resources:
         limits:

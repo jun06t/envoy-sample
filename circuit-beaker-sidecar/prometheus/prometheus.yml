@@ -7,6 +7,11 @@ scrape_configs:
       - targets: ["localhost:9090"]
         labels:
           service: prometheus
+  - job_name: "external"
+    static_configs:
+      - targets: ["external:8002"]
+        labels:
+          service: external
   - job_name: "sidecar"
     static_configs:
       - targets: ["sidecar:9901"]
