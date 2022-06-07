@@ -36,8 +36,8 @@ static_resources:
       circuit_breakers:
         thresholds:
           max_connections: 15
-          # max_pending_requests: 30
-          max_requests: 10
+          max_pending_requests: 30
+          # max_requests: 10
       load_assignment:
         cluster_name: some_service
         endpoints:
@@ -46,4 +46,4 @@ static_resources:
                   address:
                     socket_address:
                       address: backend
-                      port_value: 80
+                      port_value: 8000

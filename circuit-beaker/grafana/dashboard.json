@@ -110,7 +110,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -199,7 +200,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -627,7 +629,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -681,6 +684,6 @@
   "timezone": "",
   "title": "Envoy",
   "uid": "drxHAfr7k2",
-  "version": 6,
+  "version": 2,
   "weekStart": ""
 }

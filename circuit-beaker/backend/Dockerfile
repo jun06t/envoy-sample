@@ -1,10 +1,8 @@
-FROM ruby:alpine3.9
+FROM golang:1.18-alpine
 
-WORKDIR /app
+ADD . /workspace
+WORKDIR /workspace
+RUN GOOS=linux GOARCH=amd64 go build -o api .
+RUN mv /workspace/api /usr/local/bin
 
-COPY Gemfile .
-RUN bundle install && bundle clean
-COPY . /app
-
-EXPOSE 80
-CMD ["ruby", "app.rb"]
+CMD ["api"]

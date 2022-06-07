@@ -6,7 +6,7 @@ export const options = {
   duration: "1m",
 };
 export default function () {
-  const res = http.get("http://localhost:8080/test");
+  const res = http.get("http://localhost:8080/sleep");
   check(res, {
     "is status 200": (r) => r.status === 200,
   });
