@@ -36,6 +36,7 @@ static_resources:
                         min_rtt_calc_params:
                           jitter:
                             value: 10
+                          min_concurrency: 30
                           interval: 60s
                           request_count: 50
                       enabled:
