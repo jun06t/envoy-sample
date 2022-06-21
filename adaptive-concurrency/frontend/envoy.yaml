@@ -37,8 +37,8 @@ static_resources:
                           jitter:
                             value: 10
                           min_concurrency: 30
-                          interval: 60s
-                          request_count: 50
+                          interval: 30s
+                          request_count: 25
                       enabled:
                         default_value: true
                         runtime_key: "adaptive_concurrency.enabled"

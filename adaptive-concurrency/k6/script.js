@@ -5,11 +5,11 @@ export const options = {
   scenarios: {
     ramping_up_scenario: {
       executor: "ramping-vus",
-      startVUs: 10,
+      startVUs: 5,
       stages: [
-        { duration: "1m", target: 10 },
-        { duration: "30s", target: 60 },
-        { duration: "1m", target: 10 },
+        { duration: "3m", target: 5 },
+        { duration: "1m", target: 40 },
+        { duration: "3m", target: 5 },
       ],
     },
   },
@@ -17,6 +17,7 @@ export const options = {
 export default function () {
   const res = http.get("http://localhost:8080/cpu");
   check(res, {
+    "is status 200": (r) => r.status === 200,
     "is status 503": (r) => r.status === 503,
   });
 }
