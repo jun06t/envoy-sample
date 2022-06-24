@@ -22,16 +22,18 @@ static_resources:
                 route_config:
                   name: local_route
                   virtual_hosts:
-                    - name: local_service
+                    - name: backend_service
                       domains: ["*"]
                       routes:
                         - match: { prefix: "/" }
                           route:
                             cluster: backend_service
                             retry_policy:
-                              retry_on: "5xx"
+                              retry_on: "retriable-status-codes"
                               num_retries: 3
                               per_try_timeout: 10s
+                              retriable_status_codes:
+                                - 500
                 http_filters:
                   - name: envoy.filters.http.router
                     typed_config:
