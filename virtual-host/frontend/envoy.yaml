@@ -20,11 +20,13 @@ static_resources:
                     - name: local_service
                       domains: ["*"]
                       routes:
-                        - match: { prefix: "/get" }
+                        - name: get
+                          match: { prefix: "/get" }
                           route:
                             cluster: httpbin
                             timeout: 30s
-                        - match: { prefix: "/" }
+                        - name: default
+                          match: { prefix: "/" }
                           route:
                             cluster: default_root
                             timeout: 30s
