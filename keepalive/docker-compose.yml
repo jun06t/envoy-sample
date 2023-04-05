@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  sidecar-client:
+    build:
+      context: ./sidecar/
+    volumes:
+      - ./sidecar/envoy-client.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - 9000:9000
+  sidecar-server:
+    build:
+      context: ./sidecar/
+    volumes:
+      - ./sidecar/envoy-server.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - 9001:9001
+  client:
+    build:
+      context: ./client/
+    environment:
+      - ENDPOINT=sidecar-client:8001
+      - GRPC_GO_LOG_SEVERITY_LEVEL=info
+  server:
+    build:
+      context: ./server/
+    environment:
+      - GRPC_GO_LOG_SEVERITY_LEVEL=info
