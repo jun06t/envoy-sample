@@ -77,6 +77,7 @@ static_resources:
                       address: app
                       port_value: 8000
     - name: sidecar-server
+      http2_protocol_options: {}
       connect_timeout: 1s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN

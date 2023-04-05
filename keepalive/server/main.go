@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/jun06t/envoy-sample/keepalive/proto"
+	pb "github.com/jun06t/grpc-sample/unary/proto"
 	"google.golang.org/grpc"
 )
 
