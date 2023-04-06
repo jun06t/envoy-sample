@@ -3,23 +3,34 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"time"
 
 	pb "github.com/jun06t/grpc-sample/unary/proto"
+	"github.com/kelseyhightower/envconfig"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 )
 
-var kacp = keepalive.ClientParameters{
-	Time:                10 * time.Second,
-	Timeout:             5 * time.Second,
-	PermitWithoutStream: true,
+type Config struct {
+	KeepaliveTime    time.Duration `split_words:"true" default:"10s"`
+	KeepaliveTimeout time.Duration `split_words:"true" default:"5s"`
+	RpcTimeout       time.Duration `split_words:"true" default:"60s"`
+	Endpoint         string        `split_words:"true"`
+}
+
+var conf Config
+
+func init() {
+	envconfig.MustProcess("MYAPP", &conf)
 }
 
 func main() {
-	addr := os.Getenv("ENDPOINT")
-	conn, err := grpc.Dial(addr,
+	kacp := keepalive.ClientParameters{
+		Time:                conf.KeepaliveTime,
+		Timeout:             conf.KeepaliveTime,
+		PermitWithoutStream: true,
+	}
+	conn, err := grpc.Dial(conf.Endpoint,
 		grpc.WithInsecure(),
 		grpc.WithKeepaliveParams(kacp),
 	)
@@ -42,7 +53,7 @@ func hello(c pb.GreeterClient) {
 		Age:  10,
 		Man:  true,
 	}
-	ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.TODO(), conf.RpcTimeout)
 	defer cancel()
 	//resp, err := c.SayHello(ctx, req, grpc.WaitForReady(true))
 	resp, err := c.SayHello(ctx, req)

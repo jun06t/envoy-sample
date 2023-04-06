@@ -21,7 +21,7 @@ services:
     build:
       context: ./client/
     environment:
-      - ENDPOINT=sidecar-client:8001
+      - MYAPP_ENDPOINT=sidecar-client:8001
       - GRPC_GO_LOG_SEVERITY_LEVEL=info
       - GRPC_GO_LOG_VERBOSITY_LEVEL=2
   server:
