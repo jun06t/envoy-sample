@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  sidecar-client:
+    build:
+      context: ./sidecar/
+    volumes:
+      - ./sidecar/envoy-client.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - 9000:9000
+    depends_on:
+      client:
+        condition: service_started
+  sidecar-server:
+    build:
+      context: ./sidecar/
+    volumes:
+      - ./sidecar/envoy-server.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - 9001:9001
+    cap_add:
+      - NET_ADMIN
+  client:
+    build:
+      context: ./client/
+    environment:
+      - MYAPP_ENDPOINT=sidecar-client:8001
+      - GRPC_GO_LOG_SEVERITY_LEVEL=info
+      - GRPC_GO_LOG_VERBOSITY_LEVEL=2
+    #depends_on:
+    #  sidecar-client:
+    #    condition: service_started
+  server:
+    build:
+      context: ./server/
+    environment:
+      - MYAPP_ADDR=:8001
+      - MYAPP_SLOW_START=0s
