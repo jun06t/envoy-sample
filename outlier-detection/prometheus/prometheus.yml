@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+        labels:
+          service: prometheus
+
+  - job_name: "envoy"
+    metrics_path: /stats/prometheus
+    static_configs:
+      - targets: ["envoy:9901"]
+        labels:
+          service: envoy
+
+  - job_name: "backend1"
+    static_configs:
+      - targets: ["backend1:8080"]
+        labels:
+          service: backend1
+
+  - job_name: "backend2"
+    static_configs:
+      - targets: ["backend2:8080"]
+        labels:
+          service: backend2
