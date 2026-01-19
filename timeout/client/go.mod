@@ -5,7 +5,7 @@ go 1.23.0
 require (
 	github.com/jun06t/grpc-sample/unary v0.0.0-20230404043014-02c9ee4cc316
 	github.com/kelseyhightower/envconfig v1.4.0
-	google.golang.org/grpc v1.54.0
+	google.golang.org/grpc v1.56.3
 )
 
 require (
